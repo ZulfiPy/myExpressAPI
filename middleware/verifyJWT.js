@@ -3,8 +3,10 @@ const jwt = require('jsonwebtoken');
 const verifyJWT = async (req, res, next) => {
     console.log('verifyJWT');
     // retrieve the memory where access token is being stored
-    const header = req.headers.authorization || req.headers.Authorization;
-    const token = header.split(' ')[1];
+    const authHeader = req.headers.authorization || req.headers.Authorization;
+    // No token provided (empty auth)
+    if (!authHeader?.startsWith('Bearer ')) return res.sendStatus(401);
+    const token = authHeader.split(' ')[1];
     // verify access token
     jwt.verify(
         token,
@@ -16,9 +18,9 @@ const verifyJWT = async (req, res, next) => {
             console.log('UserInfo', decoded.UserInfo);
             req.user = decoded.UserInfo.username;
             req.roles = decoded.UserInfo.roles;
+            next();
         }
     );
-    next();
     console.log('--');
 }
 
