@@ -76,7 +76,7 @@ const handleLogin = async (req, res) => {
         res.cookie('jwt', newRefreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 });
 
         // return new accessToken to the client
-        return res.json({ 'accessToken': accessToken });
+        return res.json({accessToken});
     } else {
         // incorrect password provided
         return res.status(401).json({ 'message': 'incorrect password, please try again' });
