@@ -54,7 +54,7 @@ const handleLogin = async (req, res) => {
             !cookies?.jwt
                 ? foundEmployee.refreshToken
                 : foundEmployee.refreshToken.filter(rt => rt !== cookies.jwt);
-
+       console.log('newRefreshTokenArray', newRefreshTokenArray)
         // if JWT cookie exists, check its validity in the DB
         if (cookies?.jwt) {
             const refreshToken = cookies.jwt;
@@ -64,16 +64,18 @@ const handleLogin = async (req, res) => {
                 newRefreshTokenArray = [];
             }
             // clear old JWT cookie
-            res.clearCookie('jwt', { httpOnly: true, secure: true, sameSite: 'none' });
+            // when you test backend with Thunder Client or Postman, comment or clear secure: true
+            res.clearCookie('jwt', { httpOnly: true,  sameSite: 'none' }); // secure: true
         }
 
         // update employee refreshToken array and save the record
         foundEmployee.refreshToken = [...newRefreshTokenArray, newRefreshToken];
         const result = await foundEmployee.save();
-        console.log(result);
+        console.log("result", result);
 
         // Set new JWT refreshToken to cookies
-        res.cookie('jwt', newRefreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 });
+        // when you test backend with Thunder Client or Postman, comment or clear secure: true
+        res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 }); // secure: true, 
 
         // return new accessToken to the client
         return res.json({accessToken});
