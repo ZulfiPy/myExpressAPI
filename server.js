@@ -19,8 +19,10 @@ connectDB();
 // Customer Middleware - request logger
 app.use(logger);
 
+// built-in middleware for json
 app.use(express.json())
 
+// middleware for cookies
 app.use(cookieParser());
 
 // routes
@@ -34,7 +36,7 @@ app.use(verifyJWT);
 app.use('/api/drivers', require('./routes/api/drivers'));
 app.use('/api/employees', require('./routes/api/Employees'));
 
-// Customer Middleware - error
+// Customer Middleware - error logger
 app.use(errLogger);
 
 mongoose.connection.once('open', () => {
