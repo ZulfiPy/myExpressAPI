@@ -8,6 +8,9 @@ const verifyJWT = require('./middleware/verifyJWT');
 const cookieParser = require('cookie-parser');
 const logger = require('./middleware/logger');
 const errLogger = require('./middleware/errorHandler');
+const credentials = require('./middleware/credentials');
+const corsOptions = require('./config/corsOptions');
+const cors = require('cors');
 
 app.get('/', (req, res) => {
     res.send('hello world');
@@ -18,6 +21,10 @@ connectDB();
 
 // Customer Middleware - request logger
 app.use(logger);
+
+app.use(credentials);
+
+app.use(cors(corsOptions));
 
 // built-in middleware for json
 app.use(express.json())
