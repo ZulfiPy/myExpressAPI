@@ -22,8 +22,10 @@ connectDB();
 // Customer Middleware - request logger
 app.use(logger);
 
+// Enables credentials(cookies) for cross-origin requests from allowed origins by setting
 app.use(credentials);
 
+// Cross-Origin Resource Sharing
 app.use(cors(corsOptions));
 
 // built-in middleware for json
