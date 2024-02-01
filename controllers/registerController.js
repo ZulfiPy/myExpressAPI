@@ -11,6 +11,9 @@ const registerEmployee = async (req, res ) => {
         }
     }
 
+    const duplicate = await Employee.findOne({ username }).exec();
+    if (duplicate) return res.status(409).json({ 'message': 'Username is taken' });
+
     try {
         const hashedPwd = await bcrypt.hash(password, 10);
         
