@@ -34,6 +34,9 @@ app.use(express.json())
 // middleware for cookies
 app.use(cookieParser());
 
+// built-in middleware to handle urlencoded form data
+app.use(express.urlencoded({ extended: false }));
+
 // routes
 app.use('/register', require('./routes/register'));
 app.use('/auth', require('./routes/auth'));
