@@ -12,9 +12,8 @@ const handleRefreshToken = async (req, res) => {
 
     // Store the value of the JWT cookie, which is the current refresh token.
     const refreshToken = cookies.jwt;
-    console.log('refreshToken in refresh', refreshToken)
     // Clear the JWT cookie from the client. This is a security measure to ensure that the old refresh token is no longer usable.
-    res.clearCookie('jwt', { httpOnly: true, sameSite: 'none' }); // secure: true
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: true }); // secure: true
 
     // Attempt to find the employee in the database whose record contains the refresh token.
     const foundEmployee = await Employee.findOne({ refreshToken }).exec();
@@ -94,10 +93,10 @@ const handleRefreshToken = async (req, res) => {
             console.log('everything is done', result);
 
             // Set the new refresh token in the client's cookie.
-            res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 }); // secure: true
+            res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'none', secure: true, maxAge: 24 * 60 * 60 * 1000 }); // secure: true
 
             // Return the new access token in the response.
-            return res.json({ newAccessToken });
+            return res.json({ "accessToken": newAccessToken });
         }
     )
 }
