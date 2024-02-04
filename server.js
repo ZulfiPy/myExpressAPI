@@ -28,14 +28,14 @@ app.use(credentials);
 // Cross-Origin Resource Sharing
 app.use(cors(corsOptions));
 
+// built-in middleware to handle urlencoded form data
+app.use(express.urlencoded({ extended: false }));
+
 // built-in middleware for json
 app.use(express.json())
 
 // middleware for cookies
 app.use(cookieParser());
-
-// built-in middleware to handle urlencoded form data
-app.use(express.urlencoded({ extended: false }));
 
 // routes
 app.use('/register', require('./routes/register'));
