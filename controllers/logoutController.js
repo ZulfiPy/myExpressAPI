@@ -15,17 +15,16 @@ const handleLogout = async (req, res) => {
     // not found employee
     if (!foundEmployee) {
         // clear the cookie
-        res.clearCookie('jwt', { httpOnly: true, sameSite: 'none' }); // secure: true
+        res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true }); // , secure: true
         return res.status(204).json({ 'message': 'no employee found by the stored jwt cookie' });
     }
 
     // filter out the old refresh token from record and save it
     foundEmployee.refreshToken = foundEmployee.refreshToken.filter(rt => rt != cookies.jwt);
     const result = await foundEmployee.save();
-    console.log(result);
 
     // clear the cookie
-    res.clearCookie('jwt', { httpOnly: true, sameSite: 'none' }); // secure: true
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true }); // , secure: true
 
     return res.json({ "message": "jwt cookie cleared. employee record updated." });
 }
