@@ -68,7 +68,7 @@ const handleLogin = async (req, res) => {
             }
             // Clear the old JWT cookie from the client
             // when you test backend with Thunder Client or Postman, comment or clear secure: true
-            res.clearCookie('jwt', { httpOnly: true, sameSite: 'none' }); // secure: true
+            res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true }); // , secure: true
         }
 
         // Update the employee's record with the new set of refresh tokens and save it
@@ -78,10 +78,10 @@ const handleLogin = async (req, res) => {
 
         // Set the new refresh token in the client's cookie
         // when you test backend with Thunder Client or Postman, comment or clear secure: true
-        res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 }); // secure: true, 
+        res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 }); // secure: true, 
 
-        // Return the new access token to the client
-        return res.json({ accessToken });
+        // Return the new access token and roles to the client
+        return res.json({ roles, accessToken });
     } else {
         // If the password doesn't match, return a 401 Unauthorized status
         return res.status(401).json({ 'message': 'incorrect password, please try again' });
