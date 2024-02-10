@@ -81,7 +81,7 @@ const handleLogin = async (req, res) => {
         res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 }); // secure: true, 
 
         // Return the new access token and roles to the client
-        return res.json({ roles, accessToken });
+        return res.json({ accessToken });
     } else {
         // If the password doesn't match, return a 401 Unauthorized status
         return res.status(401).json({ 'message': 'incorrect password, please try again' });
